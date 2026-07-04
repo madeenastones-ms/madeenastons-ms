@@ -2,6 +2,12 @@
 
 import { useState } from 'react';
 
+declare global {
+  interface Window {
+    gtag?: (command: string, targetId: string, config?: Record<string, any>) => void;
+  }
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +28,15 @@ export default function Contact() {
     e.preventDefault();
     // Simulate form submission
     console.log('Form submitted:', formData);
+    
+    // Track conversion event
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18289633309/KwusCJ6mrckcEJ3QlpFE',
+        'transaction_id': `contact_${Date.now()}`
+      });
+    }
+    
     setSubmitted(true);
     setFormData({ name: '', email: '', phone: '', service: '', message: '' });
     setTimeout(() => setSubmitted(false), 3000);

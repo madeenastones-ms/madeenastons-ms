@@ -1,4 +1,15 @@
+'use client';
+
 export default function HeroSection() {
+  const handleCallClick = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18289633309/KwusCJ6mrckcEJ3QlpFE',
+        'transaction_id': `call_${Date.now()}`
+      });
+    }
+  };
+
   return (
     <section className="relative bg-black text-white py-20 md:py-32 overflow-hidden border-b border-orange-500/20">
       {/* Background Pattern */}
@@ -28,6 +39,7 @@ export default function HeroSection() {
               </a>
               <a
                 href="tel:+919611283601"
+                onClick={handleCallClick}
                 className="inline-block px-8 py-4 border-2 border-orange-500 text-orange-400 font-semibold rounded-lg hover:bg-orange-500 hover:text-white transition duration-300 text-center"
               >
                 Get Free Quote

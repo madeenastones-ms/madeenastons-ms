@@ -1,7 +1,25 @@
+'use client';
+
+import { useEffect } from 'react';
 import HeroSection from './components/HeroSection';
 import Link from 'next/link';
 
+declare global {
+  interface Window {
+    gtag?: (command: string, targetId: string, config?: Record<string, any>) => void;
+  }
+}
+
 export default function Home() {
+  const handleCallClick = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18289633309/KwusCJ6mrckcEJ3QlpFE',
+        'transaction_id': `call_${Date.now()}`
+      });
+    }
+  };
+
   const services = [
     {
       image: 'https://5.imimg.com/data5/SELLER/Default/2024/2/388572596/YF/PP/HX/114766243/home-renovation-service.jpeg',
@@ -135,6 +153,7 @@ export default function Home() {
           </p>
           <a
             href="tel:+919611283601"
+            onClick={handleCallClick}
             className="inline-block px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-gray-100 transition duration-300"
           >
             Call for Pricing

@@ -3,10 +3,25 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+declare global {
+  interface Window {
+    gtag?: (command: string, targetId: string, config?: Record<string, any>) => void;
+  }
+}
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleCallClick = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18289633309/KwusCJ6mrckcEJ3QlpFE',
+        'transaction_id': `call_${Date.now()}`
+      });
+    }
+  };
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -61,6 +76,7 @@ export default function Navbar() {
           <div className="hidden md:flex">
             <a
               href="tel:+919611283601"
+              onClick={handleCallClick}
               className="px-6 py-2 bg-gradient-to-r from-orange-500 to-amber-400 text-black rounded-lg hover:shadow-lg transition duration-200 font-semibold"
             >
               Get Quote
@@ -101,7 +117,10 @@ export default function Navbar() {
             <a
               href="tel:+919611283601"
               className="block px-3 py-2 rounded-md text-base font-medium bg-gradient-to-r from-orange-500 to-red-600 text-white hover:shadow-lg transition duration-200"
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                handleCallClick();
+                setIsOpen(false);
+              }}
             >
               Get Quote
             </a>
